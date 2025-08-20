@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# macOS files
+.DS_Store
+
+# Server public folder (if you don't want to track built assets)
+server/public/
+
+# Vite config files
+vite.config.ts*
+
+# Package archives
+*.tar.gz
+
+# Environment files
+.env
+.env.*
+
+# Replit files
+.replit
+.local/
+
+# TypeScript build outputs
+*.tsbuildinfo
+
+# Optional: lock files if you want to ignore them
+package-lock.json
+package-old.json
