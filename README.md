@@ -1,4 +1,4 @@
-# Company Admin Panel
+# TopAi24 Admin Panel
 
 A full-stack admin panel application for managing company website content with projects and blog posts.
 

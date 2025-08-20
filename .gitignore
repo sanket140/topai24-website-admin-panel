@@ -30,3 +30,6 @@ vite.config.ts*
 # Optional: lock files if you want to ignore them
 package-lock.json
 package-old.json
+
+# Ignore attached assets
+attached_assets/
