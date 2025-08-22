@@ -7,6 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/lib/supabase";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+
+
+
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -64,76 +68,79 @@ export default function AdminPage() {
         return <ProjectsManager />;
       case "blogs":
         return <BlogsManager />;
-      case "settings":
-        return (
-          <div>
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
-              <p className="text-gray-600 mt-2">
-                Manage your admin panel settings and preferences
-              </p>
-            </div>
+   case "settings":
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+        <p className="text-gray-600 mt-2">
+          Manage your admin panel settings and preferences
+        </p>
+      </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Basic Info Settings */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Basic Info</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Footer Description
-                    </label>
-                    <Input
-                      type="text"
-                      name="footerDescription"
-                      value={basicInfo.footerDescription}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Contact Details
-                    </label>
-                    <Input
-                      type="text"
-                      name="contactDetails"
-                      value={basicInfo.contactDetails}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      City Name
-                    </label>
-                    <Input
-                      type="text"
-                      name="cityName"
-                      value={basicInfo.cityName}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Resend API URL
-                    </label>
-                    <Input
-                      type="text"
-                      name="resendApiUrl"
-                      value={basicInfo.resendApiUrl}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                  </div>
-                  <Button onClick={updateBasicInfo}>Update Basic Info</Button>
-                </CardContent>
-              </Card>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Basic Info Settings */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Basic Info</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Footer Description
+              </label>
+              <Textarea
+                name="footerDescription"
+                value={basicInfo.footerDescription}
+                onChange={handleInputChange}
+                rows={5} // ✅ bigger field
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Contact Details
+              </label>
+              <Input
+                type="text"
+                name="contactDetails"
+                value={basicInfo.contactDetails}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                City Name
+              </label>
+              <Input
+                type="text"
+                name="cityName"
+                value={basicInfo.cityName}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Resend API URL
+              </label>
+              <Input
+                type="text"
+                name="resendApiUrl"
+                value={basicInfo.resendApiUrl}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div className="flex justify-end">
+              <Button onClick={updateBasicInfo}>Update Basic Info</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  
         );
       default:
         return <Dashboard />;
