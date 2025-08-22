@@ -54,6 +54,12 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
       Object.entries(project.content.architecture).map(([key, value]) => ({ key, value: String(value) })) :
       [{ key: "", value: "" }]
   );
+  const [performanceMetrics, setPerformanceMetrics] = useState<{icon: string, title: string, description: string}[]>(
+    project?.content?.performance_metrics || [{ icon: "", title: "", description: "" }]
+  );
+  const [projectOverview, setProjectOverview] = useState<{icon: string, title: string, description: string}[]>(
+    project?.content?.project_overview || [{ icon: "", title: "", description: "" }]
+  );
   const [isUploading, setIsUploading] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -208,6 +214,34 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
     setArchitectureFields(architectureFields.filter((_, i) => i !== index));
   };
 
+  const addPerformanceMetric = () => {
+    setPerformanceMetrics([...performanceMetrics, { icon: "", title: "", description: "" }]);
+  };
+
+  const updatePerformanceMetric = (index: number, field: 'icon' | 'title' | 'description', value: string) => {
+    const newMetrics = [...performanceMetrics];
+    newMetrics[index][field] = value;
+    setPerformanceMetrics(newMetrics);
+  };
+
+  const removePerformanceMetric = (index: number) => {
+    setPerformanceMetrics(performanceMetrics.filter((_, i) => i !== index));
+  };
+
+  const addProjectOverviewItem = () => {
+    setProjectOverview([...projectOverview, { icon: "", title: "", description: "" }]);
+  };
+
+  const updateProjectOverviewItem = (index: number, field: 'icon' | 'title' | 'description', value: string) => {
+    const newOverview = [...projectOverview];
+    newOverview[index][field] = value;
+    setProjectOverview(newOverview);
+  };
+
+  const removeProjectOverviewItem = (index: number) => {
+    setProjectOverview(projectOverview.filter((_, i) => i !== index));
+  };
+
   const onSubmit = async (data: ProjectFormData) => {
     try {
       setIsUploading(true);
@@ -297,6 +331,12 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
           video: data.video_url || videoUrl || undefined,
           features: features.filter(f => f.trim() !== ""),
           architecture,
+          performance_metrics: performanceMetrics.filter(metric => 
+            metric.icon.trim() !== "" && metric.title.trim() !== "" && metric.description.trim() !== ""
+          ),
+          project_overview: projectOverview.filter(item => 
+            item.icon.trim() !== "" && item.title.trim() !== "" && item.description.trim() !== ""
+          ),
         },
       };
 
@@ -621,6 +661,58 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               </Button>
             </div>
           </div>
+
+          {/* Performance Metrics Section */}
+          <div className="border-b pb-6">
+            <h4 className="text-md font-medium text-gray-900 mb-4">Performance Metrics</h4>
+            <div className="space-y-3">
+              {performanceMetrics.map((metric, index) => (
+                <div key={index} className="grid grid-cols-3 gap-2">
+                  <Input
+                    value={metric.icon}
+                    onChange={(e) => updatePerformanceMetric(index, 'icon', e.target.value)}
+                    placeholder="Icon (e.g., ⚡, 🚀, 📊)"
+                    data-testid={`perf-icon-${index}`}
+                  />
+                  <Input
+                    value={metric.title}
+                    onChange={(e) => updatePerformanceMetric(index, 'title', e.target.value)}
+                    placeholder="Metric title"
+                    data-testid={`perf-title-${index}`}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      value={metric.description}
+                      onChange={(e) => updatePerformanceMetric(index, 'description', e.target.value)}
+                      placeholder="Metric description"
+                      data-testid={`perf-desc-${index}`}
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => removePerformanceMetric(index)}
+                      disabled={performanceMetrics.length === 1}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={addPerformanceMetric}
+                className="mt-2"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Performance Metric
+              </Button>
+            </div>
+          </div>
+
+       
 
           {/* Main Image Upload */}
           <div className="border-b pb-6">

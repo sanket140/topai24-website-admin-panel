@@ -30,6 +30,16 @@ export const projects = pgTable("projects", {
     video?: string;
     features: string[];
     architecture: Record<string, any>;
+    performance_metrics?: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+    project_overview?: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
   }>(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
