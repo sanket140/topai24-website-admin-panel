@@ -78,67 +78,69 @@ export default function AdminPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Basic Info Settings */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Basic Info</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Footer Description
-              </label>
-              <Textarea
-                name="footerDescription"
-                value={basicInfo.footerDescription}
-                onChange={handleInputChange}
-                rows={5} // ✅ bigger field
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Contact Details
-              </label>
-              <Input
-                type="text"
-                name="contactDetails"
-                value={basicInfo.contactDetails}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                City Name
-              </label>
-              <Input
-                type="text"
-                name="cityName"
-                value={basicInfo.cityName}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Resend API URL
-              </label>
-              <Input
-                type="text"
-                name="resendApiUrl"
-                value={basicInfo.resendApiUrl}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button onClick={updateBasicInfo}>Update Basic Info</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <div className="flex justify-center">
+  <div className="w-full max-w-2xl">
+    <Card>
+      <CardHeader>
+        <CardTitle>Basic Info</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Footer Description
+          </label>
+          <Textarea
+            name="footerDescription"
+            value={basicInfo.footerDescription}
+            onChange={handleInputChange}
+            rows={5} // ✅ bigger field
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Contact Details
+          </label>
+          <Input
+            type="text"
+            name="contactDetails"
+            value={basicInfo.contactDetails}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            City Name
+          </label>
+          <Input
+            type="text"
+            name="cityName"
+            value={basicInfo.cityName}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Resend API URL
+          </label>
+          <Input
+            type="text"
+            name="resendApiUrl"
+            value={basicInfo.resendApiUrl}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+        <div className="flex justify-end">
+          <Button onClick={updateBasicInfo}>Update Basic Info</Button>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+</div>
+
     </div>
   
         );

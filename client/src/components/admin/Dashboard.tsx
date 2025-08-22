@@ -35,14 +35,7 @@ const statsConfig = [
     key: "featuredContent" as keyof DashboardStats,
     icon: Star,
     color: "bg-purple-100 text-purple-600",
-  },
-  {
-    title: "Total Views",
-    key: "totalViews" as keyof DashboardStats,
-    icon: Eye,
-    color: "bg-orange-100 text-orange-600",
-    value: "12,487", // Static value as not in database
-  },
+  }
 ];
 
 export default function Dashboard() {
