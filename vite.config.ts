@@ -3,7 +3,11 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(
+    {
+      jsxRuntime: "automatic", // ✅ enables new JSX transform (no React import required)
+    }
+  )],
   build: {
     outDir: 'dist',
     emptyOutDir: true,
