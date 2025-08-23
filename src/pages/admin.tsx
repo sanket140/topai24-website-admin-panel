@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import AdminLayout from "@/components/admin/AdminLayout";
-import Dashboard from "@/components/admin/Dashboard";
-import ProjectsManager from "@/components/admin/ProjectsManager";
-import BlogsManager from "@/components/admin/BlogsManager";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/lib/supabase";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import AdminLayout from "../components/admin/AdminLayout";
+import Dashboard from "../components/admin/Dashboard";
+import ProjectsManager from "../components/admin/ProjectsManager";
+import BlogsManager from "../components/admin/BlogsManager";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { supabase } from "../lib/supabase";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Textarea } from "../components/ui/textarea";
 
 
 
