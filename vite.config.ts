@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    target: 'esnext' // ✅ ensures modern build output
   },
   resolve: {
     alias: {
@@ -23,6 +24,7 @@ export default defineConfig({
     host: '0.0.0.0'
   },
   esbuild: {
-    jsxInject: `import React from 'react'`, // 👈 this ensures React is always available
-  },
+    jsxInject: `import React from 'react'`, // ✅ ensures React is injected globally
+    jsx: 'automatic' // ✅ makes sure new JSX transform works properly
+  }
 })
