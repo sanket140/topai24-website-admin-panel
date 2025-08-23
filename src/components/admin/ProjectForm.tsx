@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -671,7 +672,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
                   <Input
                     value={metric.icon}
                     onChange={(e) => updatePerformanceMetric(index, 'icon', e.target.value)}
-                    placeholder="Icon (e.g., ⚡, 🚀, 📊)"
+                    placeholder="Icon (e.g., âš¡, ðŸš€, ðŸ“Š)"
                     data-testid={`perf-icon-${index}`}
                   />
                   <Input

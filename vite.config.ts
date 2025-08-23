@@ -28,7 +28,6 @@ export default defineConfig({
     host: '0.0.0.0'
   },
   esbuild: {
-    jsxInject: `import React from 'react'`, // ✅ ensures React is injected globally
     jsx: 'automatic' // ✅ makes sure new JSX transform works properly
   }
 })

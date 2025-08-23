@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 import { supabase } from "./supabase";
 
@@ -77,3 +78,4 @@ export const queryClient = new QueryClient({
     },
   },
 });
+

@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { createClient } from '@supabase/supabase-js';
 import.meta.env;
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -240,3 +241,4 @@ export const dashboardApi = {
     };
   }
 };
+

@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { useState, useEffect } from "react";
 import AdminLayout from "../components/admin/AdminLayout";
 import Dashboard from "../components/admin/Dashboard";
@@ -93,7 +94,7 @@ export default function AdminPage() {
             name="footerDescription"
             value={basicInfo.footerDescription}
             onChange={handleInputChange}
-            rows={5} // ✅ bigger field
+            rows={5} // âœ… bigger field
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -155,3 +156,4 @@ export default function AdminPage() {
     </AdminLayout>
   );
 }
+

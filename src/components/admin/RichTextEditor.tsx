@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { useState } from "react";
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
@@ -294,3 +295,4 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
     </div>
   );
 }
+

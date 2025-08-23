@@ -1,3 +1,4 @@
+﻿import * as React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -107,7 +108,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
                     <FormControl>
                       <Input
                         type="password"
-                        placeholder="••••••••"
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                         data-testid="password-input"
                         {...field}
                       />

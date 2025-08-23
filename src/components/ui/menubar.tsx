@@ -1,4 +1,6 @@
-"use client"import * as MenubarPrimitive from "@radix-ui/react-menubar"
+﻿import * as React from "react";
+"use client"
+import * as MenubarPrimitive from "@radix-ui/react-menubar"
 import { Check, ChevronRight, Circle } from "lucide-react"
 
 import { cn } from '../../lib/utils'
@@ -251,3 +253,4 @@ export {
   MenubarSub,
   MenubarShortcut,
 }
+
