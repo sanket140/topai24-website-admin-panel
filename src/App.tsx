@@ -40,7 +40,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <TooltipProvider>
-          <Toaster />
           <AuthenticatedRouter />
         </TooltipProvider>
       </AuthProvider>
