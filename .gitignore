@@ -11,6 +11,7 @@ dist/
 server/public/
 
 # Vite config files
+vite.config.ts*
 
 # Package archives
 *.tar.gz
