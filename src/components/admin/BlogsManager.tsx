@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Card, CardContent } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { Skeleton } from '../ui/skeleton';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { useToast } from '../../hooks/use-toast';
 import { Plus, Search, Eye, Edit, Trash2, User } from "lucide-react";
 import type { Blog } from "@shared/schema";
-import { blogsApi } from "@/lib/supabase";
-import BlogForm from "@/components/admin/BlogForm";
+import { blogsApi } from '../../lib/supabase';
+import BlogForm from './BlogForm';
 
 interface BlogsResponse {
   blogs: Blog[];

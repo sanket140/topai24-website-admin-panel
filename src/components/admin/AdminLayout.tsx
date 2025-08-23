@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
+import { cn } from '../../lib/utils';
+import { Button } from '../ui/button';
+import { useAuth } from '../../hooks/useAuth';
 import { 
   LayoutDashboard, 
   FolderOpen, 
