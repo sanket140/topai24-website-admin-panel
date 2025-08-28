@@ -47,8 +47,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
   );
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPreview, setVideoPreview] = useState(project?.video_path || "");
-  const [features, setFeatures] = useState<string[]>(
-    project?.content?.features || [""]
+  const [features, setFeatures] = useState<{title: string, icon: string, description: string}[]>(
+    project?.content?.features?.map((f: any) => 
+      typeof f === 'string' ? { title: f, icon: "", description: "" } : f
+    ) || [{ title: "", icon: "", description: "" }]
   );
   const [architectureFields, setArchitectureFields] = useState<{key: string, value: string}[]>(
     project?.content?.architecture ? 
@@ -62,6 +64,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
     project?.content?.project_overview || [{ icon: "", title: "", description: "" }]
   );
   const [isUploading, setIsUploading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(project?.category || "");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -149,7 +152,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
     if (files.length > 0) {
       const remainingSlots = 6 - screenshotPreviews.length;
       const filesToAdd = files.slice(0, remainingSlots);
-      
+
       if (files.length > remainingSlots) {
         toast({
           title: "Too many screenshots",
@@ -157,9 +160,9 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
           variant: "destructive",
         });
       }
-      
+
       setScreenshotFiles(prev => [...prev, ...filesToAdd]);
-      
+
       filesToAdd.forEach(file => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -188,12 +191,12 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
   };
 
   const addFeature = () => {
-    setFeatures([...features, ""]);
+    setFeatures([...features, { title: "", icon: "", description: "" }]);
   };
 
-  const updateFeature = (index: number, value: string) => {
+  const updateFeature = (index: number, field: 'title' | 'icon' | 'description', value: string) => {
     const newFeatures = [...features];
-    newFeatures[index] = value;
+    newFeatures[index][field] = value;
     setFeatures(newFeatures);
   };
 
@@ -246,7 +249,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
   const onSubmit = async (data: ProjectFormData) => {
     try {
       setIsUploading(true);
-      
+
       // Upload main image
       let imageUrl = project?.image || "";
       if (imageFile) {
@@ -265,7 +268,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
           });
         }
       }
-      
+
       // Upload screenshots
       const screenshotUrls: string[] = [...screenshotPreviews.filter(url => url.startsWith('http'))];
       for (const file of screenshotFiles) {
@@ -330,7 +333,9 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
             description: data.hero_description || data.description,
           },
           video: data.video_url || videoUrl || undefined,
-          features: features.filter(f => f.trim() !== ""),
+          features: features.filter(feature => 
+            feature.title.trim() !== ""
+          ),
           architecture,
           performance_metrics: performanceMetrics.filter(metric => 
             metric.icon.trim() !== "" && metric.title.trim() !== "" && metric.description.trim() !== ""
@@ -440,7 +445,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={(value) => {
+                      field.onChange(value);
+                      setSelectedCategory(value);
+                    }} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger data-testid="select-category">
                           <SelectValue placeholder="Select category" />
@@ -500,7 +508,8 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
             </div>
           </div>
 
-          {/* Hero Section */}
+          {/* Hero Section - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <h4 className="text-md font-medium text-gray-900 mb-4">Hero Section</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -582,28 +591,44 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               />
             </div>
           </div>
+          )}
 
-          {/* Features Section */}
+          {/* Features Section - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <h4 className="text-md font-medium text-gray-900 mb-4">Project Features</h4>
             <div className="space-y-3">
               {features.map((feature, index) => (
-                <div key={index} className="flex gap-2">
+                <div key={index} className="grid grid-cols-3 gap-2">
                   <Input
-                    value={feature}
-                    onChange={(e) => updateFeature(index, e.target.value)}
-                    placeholder="Enter project feature"
-                    data-testid={`feature-${index}`}
+                    value={feature.icon}
+                    onChange={(e) => updateFeature(index, 'icon', e.target.value)}
+                    placeholder="Icon (e.g., ⚡, 🚀, 📊)"
+                    data-testid={`feature-icon-${index}`}
                   />
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant="outline"
-                    onClick={() => removeFeature(index)}
-                    disabled={features.length === 1}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <Input
+                    value={feature.title}
+                    onChange={(e) => updateFeature(index, 'title', e.target.value)}
+                    placeholder="Feature title"
+                    data-testid={`feature-title-${index}`}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      value={feature.description}
+                      onChange={(e) => updateFeature(index, 'description', e.target.value)}
+                      placeholder="Feature description"
+                      data-testid={`feature-desc-${index}`}
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => removeFeature(index)}
+                      disabled={features.length === 1}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
               <Button
@@ -618,8 +643,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               </Button>
             </div>
           </div>
+          )}
 
-          {/* Architecture Section */}
+          {/* Architecture Section - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <h4 className="text-md font-medium text-gray-900 mb-4">Architecture Details</h4>
             <div className="space-y-3">
@@ -662,8 +689,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               </Button>
             </div>
           </div>
+          )}
 
-          {/* Performance Metrics Section */}
+          {/* Performance Metrics Section - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <h4 className="text-md font-medium text-gray-900 mb-4">Performance Metrics</h4>
             <div className="space-y-3">
@@ -712,10 +741,61 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               </Button>
             </div>
           </div>
+          )}
 
-       
+          {/* Project Overview Section - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
+          <div className="border-b pb-6">
+            <h4 className="text-md font-medium text-gray-900 mb-4">Project Overview</h4>
+            <div className="space-y-3">
+              {projectOverview.map((item, index) => (
+                <div key={index} className="grid grid-cols-3 gap-2">
+                  <Input
+                    value={item.icon}
+                    onChange={(e) => updateProjectOverviewItem(index, 'icon', e.target.value)}
+                    placeholder="Icon (e.g., ⚡, 🚀, 📊)"
+                    data-testid={`overview-icon-${index}`}
+                  />
+                  <Input
+                    value={item.title}
+                    onChange={(e) => updateProjectOverviewItem(index, 'title', e.target.value)}
+                    placeholder="Overview title"
+                    data-testid={`overview-title-${index}`}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      value={item.description}
+                      onChange={(e) => updateProjectOverviewItem(index, 'description', e.target.value)}
+                      placeholder="Overview description"
+                      data-testid={`overview-desc-${index}`}
+                    />
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => removeProjectOverviewItem(index)}
+                      disabled={projectOverview.length === 1}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={addProjectOverviewItem}
+                className="mt-2"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Overview Item
+              </Button>
+            </div>
+          </div>
+          )}
 
-          {/* Main Image Upload */}
+          {/* Main Image Upload - Visible for all categories */}
           <div className="border-b pb-6">
             <Label>Main Project Image *</Label>
             <div className="mt-2">
@@ -759,7 +839,8 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
             </div>
           </div>
 
-          {/* Screenshots Upload */}
+          {/* Screenshots Upload - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <Label>Screenshots (Max 6)</Label>
             <div className="mt-2">
@@ -786,7 +867,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
                   ))}
                 </div>
               )}
-              
+
               {screenshotPreviews.length < 6 && (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
                   <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
@@ -809,8 +890,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               )}
             </div>
           </div>
+          )}
 
-          {/* Video Upload */}
+          {/* Video Upload - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <div className="border-b pb-6">
             <Label>Project Video</Label>
             <div className="mt-2">
@@ -838,7 +921,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
                   </div>
                 </div>
               )}
-              
+
               {!videoPreview && (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
                   <Upload className="h-8 w-8 text-gray-400 mx-auto mb-2" />
@@ -860,8 +943,10 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               )}
             </div>
           </div>
+          )}
 
-          {/* Featured Toggle */}
+          {/* Featured Toggle - Hidden for Web App category when creating new project */}
+          {(project || selectedCategory !== "Web App") && (
           <FormField
             control={form.control}
             name="featured"
@@ -883,6 +968,7 @@ export default function ProjectForm({ project, onSuccess, onCancel }: ProjectFor
               </FormItem>
             )}
           />
+          )}
 
           <div className="flex justify-end space-x-4 pt-6 border-t">
             <Button 
